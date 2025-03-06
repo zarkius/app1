@@ -39,11 +39,11 @@
         // 2. Initialize the JavaScript client library.
         gapi.client
           .init({
-            apiKey: "API_KEY",
+            apiKey: "",
             // Your API key will be automatically added to the Discovery Document URLs.
             discoveryDocs: ["https://people.googleapis.com/$discovery/rest"],
             // clientId and scope are optional if auth is not required.
-            clientId: "CLIENT_ID",
+            clientId: "",
             scope: "profile",
           })
           .then(function () {
