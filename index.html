@@ -25,17 +25,25 @@
     <title>Login</title>
   </head>
   <body>
+    <div id="login-button"></div>
+      <button onclick="handleAuthClick()">Login with Google</button>
+    </div>
+    <script>
+      function handleAuthClick() {
+        gapi.auth2.getAuthInstance().signIn();
+      }
+    </script>
     <script src="https://apis.google.com/js/api.js"></script>
     <script>
       function start() {
         // 2. Initialize the JavaScript client library.
         gapi.client
           .init({
-            apiKey: "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",
+            apiKey: "API_KEY",
             // Your API key will be automatically added to the Discovery Document URLs.
             discoveryDocs: ["https://people.googleapis.com/$discovery/rest"],
             // clientId and scope are optional if auth is not required.
-            clientId: "809977041664-ev6uo4ojuge43hjfelcui4sd6i78tr8o.apps.googleusercontent.com",
+            clientId: "CLIENT_ID",
             scope: "profile",
           })
           .then(function () {
