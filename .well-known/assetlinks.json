@@ -1,0 +1,16 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.playconsole.aprendeprogramar2",
+      "sha256_cert_fingerprints": [
+        "88:75:19:C5:65:B1:7A:9E:59:38:F1:61:7F:31:BE:E1:CA:89:D4:76:BE:2F:15:7F:58:8E:CE:34:8F:B6:B7:F4",
+        "3C:08:88:76:78:A8:8F:4A:28:A7:96:41:45:7E:9D:92:5E:0A:45:24:2E:35:CE:F1:41:65:EA:DB:8B:26:B3:96"
+      ]
+    }
+  }
+]

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="manifest.json" />
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .then((registration) => {
+              console.log("Service Worker registrado con éxito:", registration);
+            })
+            .catch((error) => {
+              console.error("Error al registrar el Service Worker:", error);
+            });
+        });
+      }
+    </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+      navigator.serviceWorker.register("service-worker.js");
+    </script>
+    <title>Login</title>
+  </head>
+  <body>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+      function start() {
+        // 2. Initialize the JavaScript client library.
+        gapi.client
+          .init({
+            apiKey: "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",
+            // Your API key will be automatically added to the Discovery Document URLs.
+            discoveryDocs: ["https://people.googleapis.com/$discovery/rest"],
+            // clientId and scope are optional if auth is not required.
+            clientId: "809977041664-ev6uo4ojuge43hjfelcui4sd6i78tr8o.apps.googleusercontent.com",
+            scope: "profile",
+          })
+          .then(function () {
+            // 3. Initialize and make the API request.
+            return gapi.client.people.people.get({
+              resourceName: "people/me",
+              "requestMask.includeField": "person.names",
+            });
+          })
+          .then(
+            function (response) {
+              console.log(response.result);
+            },
+            function (reason) {
+              console.log("Error: " + reason.result.error.message);
+            }
+          );
+      }
+      // 1. Load the JavaScript client library.
+      gapi.load("client", start);
+    </script>
+    <!-- <script src="/assets/js/jsdelivrjquery.min.js"></script>  //TODAVIA SIN IMPLEMENTAR --> 
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="main">
+      <h1>
+        Hola, El desarrollo de nuestra web se implementará en breve ENJOY
+        CHANGES
+      </h1>
+      <h3>
+        Puede usted ver nuestra politica de privacidad en:
+        <a href="/privacidad.htm">Privacidad</a>
+      </h3>
+    </div>
+  </body>
+</html>
