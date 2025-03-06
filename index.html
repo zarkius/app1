@@ -35,6 +35,7 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body class="qJTHM">
+    
     <header>
       <nav>
         <ul>
@@ -76,9 +77,9 @@
 
       // Manejar la respuesta de las credenciales
       function handleCredentialResponse(response) {
-        console.log("ID Token: " + response.credential);
+        //console.log("ID Token: " + response.credential);  //DESCOMENTAR PARA DEPURAR EL TOKEN! 
         // Aquí puedes enviar el token al servidor para verificarlo y autenticar al usuario
-        fetch("/verify-token", {
+        fetch("verify-token.html", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -90,7 +91,7 @@
             if (data.success) {
               console.log("Usuario autenticado con éxito");
               // Redirigir a la URL especificada
-              window.location.href = "https://www.yposteriormente.com";
+              window.location.href = "https://www.yposteriormente.com/dashboard";
             } else {
               console.error("Error al autenticar al usuario");
             }
