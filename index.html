@@ -4,24 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="manifest.json" />
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("/service-worker.js")
-            .then((registration) => {
-              console.log("Service Worker registrado con éxito:", registration);
-            })
-            .catch((error) => {
-              console.error("Error al registrar el Service Worker:", error);
-            });
-        });
-      }
-    </script>
     <title>Login</title>
+    <style>
+      @font-face {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        src: url(//fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+      }
+      @font-face {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 500;
+        src: url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
+      }
+      @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: url(//fonts.gstatic.com/s/googlesans/v58/4Ua_rENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RFD48TE63OOYKtrwEIJllpyw.ttf) format('truetype');
+      }
+      @font-face {
+        font-family: 'Google Sans';
+        font-style: normal;
+        font-weight: 500;
+        src: url(//fonts.gstatic.com/s/googlesans/v58/4Ua_rENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RFD48TE63OOYKtrw2IJllpyw.ttf) format('truetype');
+      }
+    </style>
+    <link rel="stylesheet" href="//ssl.gstatic.com/_/gsi/_/ss/k=gsi.gsi.PA6C7Lh93-c.L.W.O/am=ABGJy-Y/d=1/rs=AF0KOtUF2mhq2DUhw-LGMB_bpOOwstKMlQ/m=credential_button_library" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
-  <body>
-    <script src="https://cdn.jsdelivr.net/npm/@react-oauth/google@0.12.1/dist/index.min.js"></script>
+  <body class="qJTHM">
     <header>
       <nav>
         <ul>
@@ -41,18 +54,24 @@
       <!-- Botón de inicio de sesión con Google -->
       <div id="login-button"></div>
     </div>
+    <footer>
+      <p>&copy; 2021 - Todos los derechos reservados</p>
+    </footer>
     <script>
-      // Inicializar el cliente de Google OAuth
+      // Asegúrate de que el script de Google OAuth se haya cargado antes de inicializar
       window.onload = function () {
-        google.accounts.id.initialize({
-          client_id:
-            "483619470669-mj5uaa1j7mh0url8molc7nnv846cli2u.apps.googleusercontent.com",
-          callback: handleCredentialResponse,
-        });
-        google.accounts.id.renderButton(
-          document.getElementById("login-button"),
-          { theme: "outline", size: "large" } // Personaliza el botón
-        );
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+          google.accounts.id.initialize({
+            client_id: "483619470669-mj5uaa1j7mh0url8molc7nnv846cli2u.apps.googleusercontent.com", // Asegúrate de que este client_id esté autorizado en la Consola de Desarrolladores de Google
+            callback: handleCredentialResponse,
+          });
+          google.accounts.id.renderButton(
+            document.getElementById("login-button"),
+            { theme: "outline", size: "large" } // Personaliza el botón
+          );
+        } else {
+          console.error("Google OAuth script not loaded.");
+        }
       };
 
       // Manejar la respuesta de las credenciales
@@ -70,6 +89,8 @@
           .then((data) => {
             if (data.success) {
               console.log("Usuario autenticado con éxito");
+              // Redirigir a la URL especificada
+              window.location.href = "https://www.yposteriormente.com";
             } else {
               console.error("Error al autenticar al usuario");
             }
@@ -77,6 +98,11 @@
           .catch((error) => {
             console.error("Error en la solicitud de verificación:", error);
           });
+      }
+
+      // Manejar el error de redirect_uri_mismatch
+      function handleRedirectUriMismatchError() {
+        alert("Error 400: redirect_uri_mismatch. Asegúrate de que la URI de redirección esté configurada correctamente en la Consola de Desarrolladores de Google.");
       }
     </script>
   </body>
