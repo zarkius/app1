@@ -1,6 +1,5 @@
 {
   "name": "AprendeProgramar",
-  "display_override": "standalone",
   "short_name": "AprendeProgramar",
   "start_url": "/index.html",
   "display": "fullscreen",

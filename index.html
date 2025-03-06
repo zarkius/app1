@@ -18,58 +18,10 @@
         });
       }
     </script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script>
-      navigator.serviceWorker.register("service-worker.js");
-    </script>
     <title>Login</title>
   </head>
   <body>
-    <div id="login-button"></div>
-      <button onclick="handleAuthClick()">Login with Google</button>
-    </div>
-    <script>
-      function handleAuthClick() {
-        gapi.auth2.getAuthInstance().signIn();
-      }
-    </script>
-    <script src="https://apis.google.com/js/api.js"></script>
-    <script>
-      fetch('/config')
-        .then(response => response.json())
-        .then(config => {
-          function start() {
-            // 2. Initialize the JavaScript client library.
-            gapi.client
-              .init({
-                apiKey: config.apiKey,
-                // Your API key will be automatically added to the Discovery Document URLs.
-                discoveryDocs: ["https://people.googleapis.com/$discovery/rest"],
-                // clientId and scope are optional if auth is not required.
-                clientId: config.clientId,
-                scope: "profile",
-              })
-              .then(function () {
-                // 3. Initialize and make the API request.
-                return gapi.client.people.people.get({
-                  resourceName: "people/me",
-                  "requestMask.includeField": "person.names",
-                });
-              })
-              .then(
-                function (response) {
-                  console.log(response.result);
-                },
-                function (reason) {
-                  console.log("Error: " + reason.result.error.message);
-                }
-              );
-          }
-          // 1. Load the JavaScript client library.
-          gapi.load("client", start);
-        });
-    </script>
-    <!-- <script src="/assets/js/jsdelivrjquery.min.js"></script>  //TODAVIA SIN IMPLEMENTAR --> 
+    <script src="https://cdn.jsdelivr.net/npm/@react-oauth/google@0.12.1/dist/index.min.js"></script>
     <header>
       <nav>
         <ul>
@@ -86,6 +38,46 @@
         Puede usted ver nuestra politica de privacidad en:
         <a href="/privacidad.htm">Privacidad</a>
       </h3>
+      <!-- Botón de inicio de sesión con Google -->
+      <div id="login-button"></div>
     </div>
+    <script>
+      // Inicializar el cliente de Google OAuth
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id:
+            "483619470669-mj5uaa1j7mh0url8molc7nnv846cli2u.apps.googleusercontent.com",
+          callback: handleCredentialResponse,
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("login-button"),
+          { theme: "outline", size: "large" } // Personaliza el botón
+        );
+      };
+
+      // Manejar la respuesta de las credenciales
+      function handleCredentialResponse(response) {
+        console.log("ID Token: " + response.credential);
+        // Aquí puedes enviar el token al servidor para verificarlo y autenticar al usuario
+        fetch("/verify-token", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: response.credential }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              console.log("Usuario autenticado con éxito");
+            } else {
+              console.error("Error al autenticar al usuario");
+            }
+          })
+          .catch((error) => {
+            console.error("Error en la solicitud de verificación:", error);
+          });
+      }
+    </script>
   </body>
 </html>
