@@ -5,42 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="manifest.json" />
     <title>Login</title>
-    <style>
-      @font-face {
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
-        src: url(//fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 500;
-        src: url(//fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fBBc9.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: 'Google Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: url(//fonts.gstatic.com/s/googlesans/v58/4Ua_rENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RFD48TE63OOYKtrwEIJllpyw.ttf) format('truetype');
-      }
-      @font-face {
-        font-family: 'Google Sans';
-        font-style: normal;
-        font-weight: 500;
-        src: url(//fonts.gstatic.com/s/googlesans/v58/4Ua_rENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iqcsih3SAyH6cAwhX9RFD48TE63OOYKtrw2IJllpyw.ttf) format('truetype');
-      }
-    </style>
-    <link rel="stylesheet" href="//ssl.gstatic.com/_/gsi/_/ss/k=gsi.gsi.PA6C7Lh93-c.L.W.O/am=ABGJy-Y/d=1/rs=AF0KOtUF2mhq2DUhw-LGMB_bpOOwstKMlQ/m=credential_button_library" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="//ssl.gstatic.com/_/gsi/_/ss/k=gsi.gsi.PA6C7Lh93-c.L.W.O/am=ABGJy-Y/d=1/rs=AF0KOtUF2mhq2DUhw-LGMB_bpOOwstKMlQ/m=credential_button_library"
+    />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+      // Cargar el CSS dinámicamente
+      function loadCSS(filename) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = filename;
+        document.head.appendChild(link);
+      }
+
+      // Llamar a la función para cargar el CSS
+      loadCSS("styles.css");
+    </script>
   </head>
   <body class="qJTHM">
-    <div id="cookies-eu-banner" style="display: none;">
-      By continuing your visit to this site, you accept the use of cookies by Google Analytics to make visits statistics.
+    <div id="cookies-eu-banner" style="display: none">
+      By continuing your visit to this site, you accept the use of cookies by
+      Google Analytics to make visits statistics.
       <a href="./read-more.html" id="cookies-eu-more">Read more</a>
       <button id="cookies-eu-reject">Reject</button>
       <button id="cookies-eu-accept">Accept</button>
-  </div>
+    </div>
     <header>
       <nav>
         <ul>
@@ -66,9 +57,14 @@
     <script>
       // Asegúrate de que el script de Google OAuth se haya cargado antes de inicializar
       window.onload = function () {
-        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+        if (
+          typeof google !== "undefined" &&
+          google.accounts &&
+          google.accounts.id
+        ) {
           google.accounts.id.initialize({
-            client_id: "483619470669-mj5uaa1j7mh0url8molc7nnv846cli2u.apps.googleusercontent.com", // Asegúrate de que este client_id esté autorizado en la Consola de Desarrolladores de Google
+            client_id:
+              "483619470669-mj5uaa1j7mh0url8molc7nnv846cli2u.apps.googleusercontent.com", // Asegúrate de que este client_id esté autorizado en la Consola de Desarrolladores de Google
             callback: handleCredentialResponse,
           });
           google.accounts.id.renderButton(
@@ -82,55 +78,60 @@
 
       // Manejar la respuesta de las credenciales
       function handleCredentialResponse(response) {
-        //console.log("ID Token: " + response.credential);  //DESCOMENTAR PARA DEPURAR EL TOKEN! 
+        console.log("ID Token: " + response.credential);
         // Aquí puedes enviar el token al servidor para verificarlo y autenticar al usuario
-        fetch("verify-token.html", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token: response.credential }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.success) {
-              console.log("Usuario autenticado con éxito");
-              // Redirigir a la URL especificada
-              window.location.href = "https://www.yposteriormente.com/dashboard";
-            } else {
-              console.error("Error al autenticar al usuario");
-            }
-          })
-          .catch((error) => {
-            console.error("Error en la solicitud de verificación:", error);
-          });
+        const worker = new Worker("worker.js");
+        worker.postMessage({ token: response.credential });
+
+        worker.onmessage = function (event) {
+          const data = event.data;
+          if (data.success) {
+            console.log("Usuario autenticado con éxito");
+            // Redirigir a la URL especificada
+            window.location.href = "https://www.yposteriormente.com/dashboard";
+          } else {
+            console.error("Error al autenticar al usuario");
+          }
+        };
+
+        worker.onerror = function (error) {
+          console.error("Error en el trabajador web:", error);
+        };
       }
 
       // Manejar el error de redirect_uri_mismatch
       function handleRedirectUriMismatchError() {
-        alert("Error 400: redirect_uri_mismatch. Asegúrate de que la URI de redirección esté configurada correctamente en la Consola de Desarrolladores de Google.");
+        alert(
+          "Error 400: redirect_uri_mismatch. Asegúrate de que la URI de redirección esté configurada correctamente en la Consola de Desarrolladores de Google."
+        );
       }
     </script>
-        <script src="bower_components/cookies-eu-banner/dist/cookies-eu-banner.min.js"></script>
-        <script>
-          function initializeGoogleOAuth() {
-          if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-            google.accounts.id.initialize({
-            client_id: "483619470669-mj5uaa1j7mh0url8molc7nnv846cli2u.apps.googleusercontent.com",
+    <script src="bower_components/cookies-eu-banner/dist/cookies-eu-banner.min.js"></script>
+    <script>
+      function initializeGoogleOAuth() {
+        if (
+          typeof google !== "undefined" &&
+          google.accounts &&
+          google.accounts.id
+        ) {
+          google.accounts.id.initialize({
+            client_id:
+              "483619470669-mj5uaa1j7mh0url8molc7nnv846cli2u.apps.googleusercontent.com",
             callback: handleCredentialResponse,
-            });
-            google.accounts.id.renderButton(
+          });
+          google.accounts.id.renderButton(
             document.getElementById("login-button"),
             { theme: "outline", size: "large" }
-            );
-          } else {
-            console.error("Google OAuth script not loaded.");
-          }
-          }
+          );
+        } else {
+          console.error("Google OAuth script not loaded.");
+        }
+      }
 
-          window.onload = function () {
-          initializeGoogleOAuth();
-          };
-        </script>
+      window.onload = function () {
+        initializeGoogleOAuth();
+      };
+    </script>
+    <iframe src="https://github.com/sponsors/zarkius/button" title="Sponsor zarkius" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
   </body>
 </html>
