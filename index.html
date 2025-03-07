@@ -35,7 +35,12 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body class="qJTHM">
-    
+    <div id="cookies-eu-banner" style="display: none;">
+      By continuing your visit to this site, you accept the use of cookies by Google Analytics to make visits statistics.
+      <a href="./read-more.html" id="cookies-eu-more">Read more</a>
+      <button id="cookies-eu-reject">Reject</button>
+      <button id="cookies-eu-accept">Accept</button>
+  </div>
     <header>
       <nav>
         <ul>
@@ -106,5 +111,26 @@
         alert("Error 400: redirect_uri_mismatch. Asegúrate de que la URI de redirección esté configurada correctamente en la Consola de Desarrolladores de Google.");
       }
     </script>
+        <script src="bower_components/cookies-eu-banner/dist/cookies-eu-banner.min.js"></script>
+        <script>
+          function initializeGoogleOAuth() {
+          if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+            google.accounts.id.initialize({
+            client_id: "483619470669-mj5uaa1j7mh0url8molc7nnv846cli2u.apps.googleusercontent.com",
+            callback: handleCredentialResponse,
+            });
+            google.accounts.id.renderButton(
+            document.getElementById("login-button"),
+            { theme: "outline", size: "large" }
+            );
+          } else {
+            console.error("Google OAuth script not loaded.");
+          }
+          }
+
+          window.onload = function () {
+          initializeGoogleOAuth();
+          };
+        </script>
   </body>
 </html>
