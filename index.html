@@ -6,10 +6,6 @@
     <link rel="manifest" href="manifest.json" />
     <title>Login</title>
     <link rel="stylesheet" href="styles.css" />
-    <link
-      rel="stylesheet"
-      href="//ssl.gstatic.com/_/gsi/_/ss/k=gsi.gsi.PA6C7Lh93-c.L.W.O/am=ABGJy-Y/d=1/rs=AF0KOtUF2mhq2DUhw-LGMB_bpOOwstKMlQ/m=credential_button_library"
-    />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
       // Cargar el CSS dinámicamente
@@ -25,13 +21,6 @@
     </script>
   </head>
   <body class="qJTHM">
-    <div id="cookies-eu-banner" style="display: none">
-      By continuing your visit to this site, you accept the use of cookies by
-      Google Analytics to make visits statistics.
-      <a href="./read-more.html" id="cookies-eu-more">Read more</a>
-      <button id="cookies-eu-reject">Reject</button>
-      <button id="cookies-eu-accept">Accept</button>
-    </div>
     <header>
       <nav>
         <ul>
@@ -46,7 +35,7 @@
       </h1>
       <h3>
         Puede usted ver nuestra politica de privacidad en:
-        <a href="/privacidad.htm">Privacidad</a>
+        <a href="/privacidad.html">Privacidad</a>
       </h3>
       <!-- Botón de inicio de sesión con Google -->
       <div id="login-button"></div>
@@ -88,7 +77,8 @@
           if (data.success) {
             console.log("Usuario autenticado con éxito");
             // Redirigir a la URL especificada
-            window.location.href = "https://www.yposteriormente.com/dashboard.html";
+            window.location.href =
+              "https://www.yposteriormente.com/dashboard.html";
           } else {
             console.error("Error al autenticar al usuario");
           }
@@ -106,7 +96,6 @@
         );
       }
     </script>
-    <script src="bower_components/cookies-eu-banner/dist/cookies-eu-banner.min.js"></script>
     <script>
       function initializeGoogleOAuth() {
         if (
@@ -132,6 +121,18 @@
         initializeGoogleOAuth();
       };
     </script>
-    <iframe src="https://github.com/sponsors/zarkius/button" title="Sponsor zarkius" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
+    <iframe
+      src="https://github.com/sponsors/zarkius/button"
+      title="Sponsor zarkius"
+      height="32"
+      width="114"
+      style="border: 0; border-radius: 6px"
+    ></iframe>
+
+    <script
+      type="text/javascript"
+      id="cookiebanner"
+      src="https://cdn.jsdelivr.net/gh/dobarkod/cookie-banner@1.2.2/dist/cookiebanner.min.js"
+    ></script>
   </body>
 </html>
