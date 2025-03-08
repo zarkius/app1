@@ -39,6 +39,15 @@
       </h3>
       <!-- Botón de inicio de sesión con Google -->
       <div id="login-button"></div>
+      <!-- Formulario de inicio de sesión -->
+      <form id="loginForm" action="/api/v1/login" method="POST">
+        <input type="hidden" name="csrf_token" value="CSRF_TOKEN_PLACEHOLDER">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <button type="submit">Login</button>
+      </form>
     </div>
     <footer>
       <p>&copy; 2021 - Todos los derechos reservados</p>
