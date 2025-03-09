@@ -1,4 +1,3 @@
-// filepath: c:\Users\diego\OneDrive\Desktop\descarga hostinger\app1\login.js
 document.addEventListener('DOMContentLoaded', (event) => {
     const loginForm = document.getElementById('loginForm');
     loginForm.addEventListener('submit', (e) => {
@@ -6,6 +5,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
 
         // Simple validation
         if (username === '' || password === '') {
@@ -14,10 +14,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
 
         // Example of a login request
-        fetch('/login', {
+        fetch('/api/v1/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'CSRF-Token': csrfToken
             },
             body: JSON.stringify({ username, password })
         })
