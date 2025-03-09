@@ -149,5 +149,38 @@
       id="cookiebanner"
       src="https://cdn.jsdelivr.net/gh/dobarkod/cookie-banner@1.2.2/dist/cookiebanner.min.js"
     ></script>
+    <script>
+      // Inicializar IndexedDB
+      function initializeIndexedDB() {
+        if (!window.indexedDB) {
+          console.error("IndexedDB no está soportado en este navegador.");
+          return;
+        }
+
+        const request = indexedDB.open("miBaseDeDatos", 1);
+
+        request.onerror = function (event) {
+          console.error("Error al abrir IndexedDB:", event.target.errorCode);
+        };
+
+        request.onsuccess = function (event) {
+          console.log("IndexedDB inicializado con éxito.");
+          const db = event.target.result;
+          // Aquí puedes realizar operaciones con la base de datos
+        };
+
+        request.onupgradeneeded = function (event) {
+          const db = event.target.result;
+          const objectStore = db.createObjectStore("miObjectStore", { keyPath: "id" });
+          objectStore.createIndex("nombre", "nombre", { unique: false });
+          console.log("ObjectStore y índices creados.");
+        };
+      }
+
+      window.onload = function () {
+        initializeGoogleOAuth();
+        initializeIndexedDB();
+      };
+    </script>
   </body>
 </html>
