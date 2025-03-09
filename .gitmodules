@@ -1,3 +1,6 @@
 [submodule "app1"]
     path = app1
     url = <repository_url>
+[submodule "wss/chat-example"]
+    path = wss/chat-example
+    url = <repository_url>
