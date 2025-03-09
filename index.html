@@ -41,18 +41,26 @@
       <div id="login-button"></div>
       <!-- Formulario de inicio de sesión -->
       <form id="loginForm" action="/api/v1/login" method="POST">
-        <input type="hidden" name="csrf_token" value="CSRF_TOKEN_PLACEHOLDER">
+        <input type="hidden" name="csrf_token" value="CSRF_TOKEN_PLACEHOLDER" />
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
+        <input type="text" id="username" name="username" />
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password" />
         <button type="submit">Login</button>
       </form>
 
-      <h3 style="text-align: center;">Mientras hacemos la magia, tú disfruta.</h3>
+      <h3 style="text-align: center">
+        Mientras hacemos la magia, tú disfruta.
+      </h3>
       <!-- Minijuego de coches embebido -->
       <div class="game-container" allowfullscreen="true">
-        <iframe src="https://www.gameflare.com/embed/car-simulator-arena/" width="800" height="600" style="border:none;" allow="autoplay; fullscreen"></iframe>
+        <iframe
+          src="https://www.gameflare.com/embed/car-simulator-arena/"
+          width="800"
+          height="600"
+          style="border: none"
+          allow="autoplay; fullscreen"
+        ></iframe>
       </div>
     </div>
     <footer>
@@ -92,8 +100,7 @@
           if (data.success) {
             console.log("Usuario autenticado con éxito");
             // Redirigir a la URL especificada
-            window.location.href =
-              "https://www.yposteriormente.com/";
+            window.location.href = "https://www.yposteriormente.com/";
           } else {
             console.error("Error al autenticar al usuario");
           }
@@ -143,7 +150,6 @@
       width="114"
       style="border: 0; border-radius: 6px"
     ></iframe>
-
     <script
       type="text/javascript"
       id="cookiebanner"
@@ -171,7 +177,9 @@
 
         request.onupgradeneeded = function (event) {
           const db = event.target.result;
-          const objectStore = db.createObjectStore("miObjectStore", { keyPath: "id" });
+          const objectStore = db.createObjectStore("miObjectStore", {
+            keyPath: "id",
+          });
           objectStore.createIndex("nombre", "nombre", { unique: false });
           console.log("ObjectStore y índices creados.");
         };
