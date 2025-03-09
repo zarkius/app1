@@ -1,4 +1,25 @@
 const express = require('express');
+const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
+const apiRouter = require('./api/v1/api');
+
+const app = express();
+const csrfProtection = csrf({ cookie: true });
+
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use('/api/v1', csrfProtection, apiRouter);
+
+app.get('/index.html', csrfProtection, (req, res) => {
+  res.render('index', { csrfToken: req.csrfToken() });
+});
+
+app.listen(3000, () => {
+  console.log('Servidor escuchando en el puerto 3000');
+});
+
 const router = express.Router();
 
 // Mock user data
