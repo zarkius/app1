@@ -23,7 +23,7 @@
   <body class="qJTHM">
     <nav>
       <ul>
-        <li><a href="index.html">Inicio</a></li>
+        <button style="background-color: blue; color: white; border: none; padding: 10px 20px; cursor: pointer;" onclick="window.location.href='index.html'">Inicio</button>
         <li class="dropdown">
           <a href="javascript:void(0)" class="dropbtn">Menú</a>
           <div class="dropdown-content">
@@ -74,7 +74,7 @@
     </footer>
     <script>
       // Asegúrate de que el script de Google OAuth se haya cargado antes de inicializar
-      window.onload = function () {
+      function initializeGoogleOAuth() {
         if (
           typeof google !== "undefined" &&
           google.accounts &&
@@ -92,7 +92,7 @@
         } else {
           console.error("Google OAuth script not loaded.");
         }
-      };
+      }
 
       // Manejar la respuesta de las credenciales
       function handleCredentialResponse(response) {
@@ -123,45 +123,7 @@
           "Error 400: redirect_uri_mismatch. Asegúrate de que la URI de redirección esté configurada correctamente en la Consola de Desarrolladores de Google."
         );
       }
-    </script>
-    <script>
-      function initializeGoogleOAuth() {
-        if (
-          typeof google !== "undefined" &&
-          google.accounts &&
-          google.accounts.id
-        ) {
-          google.accounts.id.initialize({
-            client_id:
-              "483619470669-mj5uaa1j7mh0url8molc7nnv846cli2u.apps.googleusercontent.com",
-            callback: handleCredentialResponse,
-          });
-          google.accounts.id.renderButton(
-            document.getElementById("login-button"),
-            { theme: "outline", size: "large" }
-          );
-        } else {
-          console.error("Google OAuth script not loaded.");
-        }
-      }
 
-      window.onload = function () {
-        initializeGoogleOAuth();
-      };
-    </script>
-    <iframe
-      src="https://github.com/sponsors/zarkius/button"
-      title="Sponsor zarkius"
-      height="32"
-      width="114"
-      style="border: 0; border-radius: 6px"
-    ></iframe>
-    <script
-      type="text/javascript"
-      id="cookiebanner"
-      src="https://cdn.jsdelivr.net/gh/dobarkod/cookie-banner@1.2.2/dist/cookiebanner.min.js"
-    ></script>
-    <script>
       // Inicializar IndexedDB
       function initializeIndexedDB() {
         if (!window.indexedDB) {
@@ -196,5 +158,17 @@
         initializeIndexedDB();
       };
     </script>
+    <iframe
+      src="https://github.com/sponsors/zarkius/button"
+      title="Sponsor zarkius"
+      height="32"
+      width="114"
+      style="border: 0; border-radius: 6px"
+    ></iframe>
+    <script
+      type="text/javascript"
+      id="cookiebanner"
+      src="https://cdn.jsdelivr.net/gh/dobarkod/cookie-banner@1.2.2/dist/cookiebanner.min.js"
+    ></script>
   </body>
 </html>
