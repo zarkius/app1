@@ -6,6 +6,10 @@
     <link rel="manifest" href="manifest.json" />
     <title>Login</title>
     <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
       // Cargar el CSS dinámicamente
@@ -21,43 +25,19 @@
     </script>
   </head>
   <body class="qJTHM">
-    <nav>
-      <ul>
-        <button class="button-transition" onclick="window.location.href='index.html'">Inicio</button>
-        <li class="dropdown">
-          <a href="javascript:void(0)" class="dropbtn">Menú</a>
-          <div class="dropdown-content">
-            <a href="#opcion1">Opción 1</a>
-            <a href="#opcion2">Opción 2</a>
-            <a href="#opcion3">Opción 3</a>
-          </div>
-        </li>
-      </ul>
-    </nav>
-    <div class="main">
-      <h1>
-        Hola, El desarrollo de nuestra web se implementará en breve ENJOY
-        CHANGES
-      </h1>
-      <h3>
-        Puede usted ver nuestra politica de privacidad en:
-        <a href="/privacidad.html">Privacidad</a>
-      </h3>
-      <!-- Botón de inicio de sesión con Google -->
-      <div id="login-button"></div>
-      <!-- Formulario de inicio de sesión -->
-      <form id="loginForm" action="/api/v1/login" method="POST">
-        <input type="hidden" name="csrf_token" value="CSRF_TOKEN_PLACEHOLDER" />
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" />
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" />
-        <button type="submit">Login</button>
-      </form>
+      <div class="icon-menu">
+        <a href="#home" title="Inicio"><i class="fas fa-home"></i></a>
+        <a href="#services" title="Servicios"
+          ><i class="fas fa-concierge-bell"></i
+        ></a>
+        <a href="#about" title="Acerca de"><i class="fas fa-info-circle"></i></a>
+        <a href="#contact" title="Contacto"><i class="fas fa-envelope"></i></a>
+              <!-- Botón de inicio de sesión con Google -->
+      <div id="login-button" style="position: absolute; top: 0; right: 0;"></div>
+      </div>
 
-      <h3 style="text-align: center">
-        Mientras hacemos la magia, tú disfruta.
-      </h3>
+
+      <h3 class="text-center mt-5">Mientras hacemos la magia, tú disfruta.</h3>
       <!-- Minijuego de coches embebido -->
       <div class="game-container" allowfullscreen="true">
         <iframe
@@ -69,9 +49,21 @@
         ></iframe>
       </div>
     </div>
-    <footer>
-      <p>&copy; 2021 - Todos los derechos reservados</p>
+    <footer class="text-center mt-5">
+      <div>
+        <iframe
+          src="https://github.com/sponsors/zarkius/button"
+          title="Colabora"
+          height="32"
+          width="114"
+          style="border: 0; border-radius: 6px"
+        ></iframe>
+        <p>&copy; 2021 - Todos los derechos reservados <a href="/privacidad.html">Privacidad</a></p>
+      </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
       // Asegúrate de que el script de Google OAuth se haya cargado antes de inicializar
       function initializeGoogleOAuth() {
@@ -158,13 +150,6 @@
         initializeIndexedDB();
       };
     </script>
-    <iframe
-      src="https://github.com/sponsors/zarkius/button"
-      title="Sponsor zarkius"
-      height="32"
-      width="114"
-      style="border: 0; border-radius: 6px"
-    ></iframe>
     <script
       type="text/javascript"
       id="cookiebanner"

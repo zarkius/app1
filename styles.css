@@ -76,3 +76,22 @@
   background-color: darkblue;
   transform: scale(1.05);
 }
+
+.icon-menu {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.icon-menu a {
+  color: #333;
+  text-decoration: none;
+  font-size: 24px;
+  transition: color 0.3s ease;
+}
+
+.icon-menu a:hover {
+  color: #007bff;
+}
