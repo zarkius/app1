@@ -1,0 +1,17 @@
+   Make sure that the `seo-analyzeryaml
+name: SEO analyzer
+
+on: [push]
+
+jobs:
+  seo-analyzer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js` package is correctly installed and that all its dependencies are
+        uses: actions/setup-node@v4
+        with:
+ properly resolved. You can do this by updating the installation command to include a check:
+
+```yaml
+- run: npm i -g seo-analyzer && npm ls -g seo-analyzer
