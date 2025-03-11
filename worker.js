@@ -12,7 +12,8 @@
                 const writableStream = await fileHandle.createWritable();
                 
                 // Escribir datos en el archivo
-                await writableStream.write('aaa');
+                const texto = "ESTE TEXTO SE HA ESCRITO USANDO LA API DEL NAVEGADOR";
+                await writableStream.write(texto);
                 
                 // Cerrar el stream de escritura
                 await writableStream.close();
