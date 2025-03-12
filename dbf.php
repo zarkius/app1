@@ -1,30 +1,34 @@
 <?php
-// filepath: c:\Users\diego\OneDrive\Desktop\NAMESPACE1\descarga_hostinger\web1\dbf.php
-
-$servername = "yposteriormente.com";
+$servername = "";
 $username = "u363046794_zarkius";
-$password = "#BElp3>L@t4D";
-$dbname = "app1";
+$password = "11211121aA.,";
+$dbname = "u363046794_apps";
 
-// Crear conexión
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar conexión
+// Check connection
 if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
+echo "Connected successfully";
 
-// Obtener los datos del POST
-$data = json_decode(file_get_contents('php://input'), true);
-$email = $data['email'];
 
-// Insertar en la base de datos
-$sql = "INSERT INTO app1 (email) VALUES ('$email')";
+// prepare and bind
 
-if ($conn->query($sql) === TRUE) {
-    echo "Correo electrónico guardado con éxito";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+
+    $stmt = $conn->prepare("INSERT INTO app1 (email) VALUES (?)");
+    $stmt->bind_param("s", $email);
+
+    if ($stmt->execute()) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
 }
 
 $conn->close();
