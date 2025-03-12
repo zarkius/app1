@@ -1,10 +1,10 @@
 <?php
 // filepath: c:\Users\diego\OneDrive\Desktop\NAMESPACE1\descarga_hostinger\web1\dbf.php
 
-$servername = "yposteriormente.com";
+$servername = "fr-int-web1795.main-hosting.eu";
 $username = "u363046794_zarkius";
-$password = "l$rmW=Bdh?8E";
-$dbname = "u363046794_apps";
+$password = "#BElp3>L@t4D";
+$dbname = "app1";
 
 // Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
