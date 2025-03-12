@@ -1,7 +1,7 @@
 <?php
 // filepath: c:\Users\diego\OneDrive\Desktop\NAMESPACE1\descarga_hostinger\web1\dbf.php
 
-$servername = "fr-int-web1795.main-hosting.eu";
+$servername = "yposteriormente.com";
 $username = "u363046794_zarkius";
 $password = "#BElp3>L@t4D";
 $dbname = "app1";
