@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="manifest" href="manifest.json" />
+    <title>Inicio - www.yposteriormente.com</title>
+    <meta
+      name="description"
+      content="Bienvenido a www.yposteriormente.com, tu sitio web para servicios y notificaciones."
+    />
+    <meta
+      name="keywords"
+      content="servicios, notificaciones, hogar, contacto, acerca de"
+    />
+    <meta name="author" content="www.yposteriormente.com" />
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("/service-worker.js").then(
+            function (registration) {
+              console.log(
+                "ServiceWorker registration successful with scope: ",
+                registration.scope
+              );
+            },
+            function (error) {
+              console.log("ServiceWorker registration failed: ", error);
+            }
+          );
+        });
+      }
+    </script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      /* Estilos para el menú lateral */
+      .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+      }
+
+      .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+      }
+
+      .sidenav a:hover {
+        color: #f1f1f1;
+      }
+
+      .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+      }
+
+      /* Estilos para el botón de abrir el menú */
+      #menuButton {
+        font-size: 30px;
+        cursor: pointer;
+        top: 15px;
+        left: 15px;
+        z-index: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-3JVV0PF8GG"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-3JVV0PF8GG");
+    </script>
+    <div id="menuButton" onclick="openNav()">
+      <i class="fas fa-bars"></i>
+    </div>
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="#home"><i class="fas fa-home"></i> Hogar</a>
+      <a href="#services"
+        ><i class="fas fa-concierge-bell"></i> Notificaciones</a
+      >
+      <a href="#services"><i class="fa-solid fa-cloud"></i> Servicios</a>
+      <a href="#about"><i class="fas fa-info-circle"></i> Acerca de</a>
+      <a href="#contact"><i class="fas fa-envelope"></i> Contacto</a>
+      <div id="login-button" style="width: 250px; margin-top: 20px"></div>
+    </div>
+    <footer>
+      <p>
+        &copy; 2025 - Todos los derechos reservados
+        <a href="/privacidad.html">Privacidad</a>
+      </p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      // Asegúrate de que el script de Google OAuth se haya cargado antes de inicializar
+      function initializeGoogleOAuth() {
+        if (
+          typeof google !== "undefined" &&
+          google.accounts &&
+          google.accounts.id
+        ) {
+          google.accounts.id.initialize({
+            client_id:
+              "483619470669-mj5uaa1j7mh0url8molc7nnv846cli2u.apps.googleusercontent.com", // Asegúrate de que este client_id esté autorizado en la Consola de Desarrolladores de Google
+            callback: handleCredentialResponse,
+          });
+          google.accounts.id.renderButton(
+            document.getElementById("login-button"),
+            { theme: "outline", size: "large" } // Personaliza el botón
+          );
+        } else {
+          console.error("Google OAuth script not loaded.");
+        }
+      }
+
+      // Manejar la respuesta de las credenciales
+      function handleCredentialResponse(response) {
+        console.log("ID Token: " + response.credential);
+        // Aquí puedes enviar el token al servidor para verificarlo y autenticar al usuario
+        const worker = new Worker("worker.js");
+        worker.postMessage({ token: response.credential });
+
+        worker.onmessage = function (event) {
+          const data = event.data;
+          if (data.success) {
+            console.log("Usuario autenticado con éxito");
+            // Redirigir a la URL especificada
+            window.location.href = "https://www.yposteriormente.com/";
+          } else {
+            console.error("Error al autenticar al usuario");
+          }
+        };
+
+        worker.onerror = function (error) {
+          console.error("Error en el trabajador web:", error);
+        };
+      }
+
+      // Manejar el error de redirect_uri_mismatch
+      function handleRedirectUriMismatchError() {
+        alert(
+          "Error 400: redirect_uri_mismatch. Asegúrate de que la URI de redirección esté configurada correctamente en la Consola de Desarrolladores de Google."
+        );
+      }
+
+      // Inicializar IndexedDB
+      function initializeIndexedDB() {
+        if (!window.indexedDB) {
+          console.error("IndexedDB no está soportado en este navegador.");
+          return;
+        }
+
+        const request = indexedDB.open("miBaseDeDatos", 1);
+
+        request.onerror = function (event) {
+          console.error("Error al abrir IndexedDB:", event.target.errorCode);
+        };
+
+        request.onsuccess = function (event) {
+          console.log("IndexedDB inicializado con éxito.");
+          const db = event.target.result;
+          // Aquí puedes realizar operaciones con la base de datos
+        };
+
+        request.onupgradeneeded = function (event) {
+          const db = event.target.result;
+          const objectStore = db.createObjectStore("miObjectStore", {
+            keyPath: "id",
+          });
+          objectStore.createIndex("nombre", "nombre", { unique: false });
+          console.log("ObjectStore y índices creados.");
+        };
+      }
+
+      window.onload = function () {
+        initializeGoogleOAuth();
+        initializeIndexedDB();
+      };
+
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+      }
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+      }
+    </script>
+    <script
+      type="text/javascript"
+      id="cookiebanner"
+      src="https://cdn.jsdelivr.net/gh/dobarkod/cookie-banner@1.2.2/dist/cookiebanner.min.js"
+    ></script>
+    <script src="/worker.js"></script>
+  </body>
+</html>
